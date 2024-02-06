@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Be My Valentine!</title>
+</head>
+<body>
+
+  <h1>Happy Valentine's Day!</h1>
+
+  <form>
+    What is your name?: <input type="text" id="name"> 
+    <br>
+    <button onclick="askToBeValentine()">Be My Valentine!</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    function askToBeValentine() {
+      let name = document.getElementById("name").value;
+      let response = prompt(name + ", will you be my valentine?");
+      
+      if (response == "yes") {
+        document.getElementById("response").innerHTML = "Yay, " + name + " said yes!";
+      } else if (response == "no") {
+        document.getElementById("response").innerHTML = "Aww, " + name + " said no!";  
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+
+
