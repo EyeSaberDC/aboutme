@@ -28,19 +28,17 @@
       <button onclick="respondYes()">Yes</button>
       <button onclick="respondNo()">No</button>
     </form>
-  
-    <div id="response"></div>
-  
+
+    <div id="respond"></div>
+
     <script>
-      function respondYes() {
-        document.getElementById("response").innerHTML = "Yay, you said yes!";
-        window.location.href = "yes.html";
-      }
-      
-      function respondNo() {
-        document.getElementById("response").innerHTML = "Aww, you said no!";
-        window.location.href = "no.html";
-      }
+        function respondYes() {
+          window.location.href = "yes.html";
+        }
+        
+        function respondNo() {
+          window.location.href = "no.html";
+        }
     </script>
 
 </body>
