@@ -33,35 +33,19 @@
   <div id="response"></div>
 
   <script>
-    const webhookUrl = 'https://discord.com/api/webhooks/1204347248046247957/aGBpH3fseJVk-qnaHktxA5vRYZC0reBvZBt0ljvKtdgPXcgVDTl2-SimkPp_U84XWRY4'; 
-
-    function sendToWebhook(message) {
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({content: message})
-      });
-    }
-
     function askToBeValentine() {
       let name = document.getElementById("name").value;
       let response = prompt(name + ", will you be my valentine?");
       
-      if (response == "yes") {
-    document.getElementById("response").innerHTML =  
-      "Yay, " + name + " said yes! <br> You've made me so happy!";
-    
-    sendToWebhook(name + " said YES!");
-    
-  } else if (response == "no") {
-    document.getElementById("response").innerHTML =   
-      "Aww, " + name + " said no! <br> I'm crushed, but it's ok.";
-    
-    sendToWebhook(name + " said NO!");
-      }
-    }
+    if (response == "yes") {
+      document.getElementById("response").innerHTML =   
+        "Yay, " + name + " said yes! <br> You've made me so happy!";
+
+    } else if (response == "no") {
+      document.getElementById("response").innerHTML =    
+        "Aww, " + name + " said no! <br> I'm crushed, but it's ok.";
+  }
+}
   </script>
 
 </body>
