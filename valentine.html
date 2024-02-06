@@ -22,33 +22,26 @@
 </head>
 <body>
 
-  <h1>Happy Valentine's Day!</h1>
-
-  <form>
-    What is your name? <input type="text" id="name"> 
-    <br>
-    <button onclick="askToBeValentine()">Be My Valentine!</button>
-    <button onclick="respondYes()">Yes</button>
-    <button onclick="respondNo()">No</button>
-  </form>
-
-  <div id="response"></div>
-
-  <script>
-    function askToBeValentine() {
-      let name = document.getElementById("name").value;
-      let response = prompt(name + ", will you be my valentine?");
-
-      // Get yes/no response
-
-      if (response == "yes") {
+    <h1>Will you be my valentine?</h1>
+  
+    <form>
+      <button onclick="respondYes()">Yes</button>
+      <button onclick="respondNo()">No</button>
+    </form>
+  
+    <div id="response"></div>
+  
+    <script>
+      function respondYes() {
+        document.getElementById("response").innerHTML = "Yay, you said yes!";
         window.location.href = "yes.html";
-
-      } else if (response == "no") {
+      }
+      
+      function respondNo() {
+        document.getElementById("response").innerHTML = "Aww, you said no!";
         window.location.href = "no.html";
       }
-    }
-  </script>
+    </script>
 
 </body>
 </html>
