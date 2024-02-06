@@ -28,6 +28,8 @@
     What is your name? <input type="text" id="name"> 
     <br>
     <button onclick="askToBeValentine()">Be My Valentine!</button>
+    <button onclick="respondYes()">Yes</button>
+    <button onclick="respondNo()">No</button>
   </form>
 
   <div id="response"></div>
@@ -40,15 +42,9 @@
       // Get yes/no response
 
       if (response == "yes") {
-  
-        // Show "yes" response
-  
         window.location.href = "yes.html";
 
       } else if (response == "no") {
-
-        // Show "no" response
-
         window.location.href = "no.html";
       }
     }
