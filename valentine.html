@@ -50,11 +50,16 @@
       let response = prompt(name + ", will you be my valentine?");
       
       if (response == "yes") {
-        document.getElementById("response").innerHTML = 
-          "Yay, " + name + " said yes! <br> You've made me so happy!";
-      } else if (response == "no") {
-        document.getElementById("response").innerHTML =  
-          "Aww, " + name + " said no! <br> I'm crushed, but it's ok.";
+    document.getElementById("response").innerHTML =  
+      "Yay, " + name + " said yes! <br> You've made me so happy!";
+    
+    sendToWebhook(name + " said YES!");
+    
+  } else if (response == "no") {
+    document.getElementById("response").innerHTML =   
+      "Aww, " + name + " said no! <br> I'm crushed, but it's ok.";
+    
+    sendToWebhook(name + " said NO!");
       }
     }
   </script>
