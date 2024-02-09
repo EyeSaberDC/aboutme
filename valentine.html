@@ -58,6 +58,27 @@
     if(yesFontSize >= 50) {
       noBtn.style.display = 'none'; 
     }
+
+    function checkYesSize() {
+      const yesWidth = yesBtn.offsetWidth;
+      const pageWidth = document.body.offsetWidth;
+  
+      if(yesWidth >= pageWidth) {
+        noBtn.style.display = 'none';
+      } else {
+        noBtn.style.display = 'inline-block'; 
+      }
+    }
+
+    noBtn.addEventListener('click', () => {
+      // Increase yes button size
+  
+      checkYesSize(); // Check size on click
+    });
+
+    window.addEventListener('resize', checkYesSize); // On resize
+
+    checkYesSize(); // On load
   </script>
 
 </body>
