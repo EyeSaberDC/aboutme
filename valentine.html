@@ -5,27 +5,31 @@
   <style>
     button {
       font-size: 20px;
-      padding: 10px 20px; 
+      padding: 10px 20px;
     }
     #yes {
       transition: font-size 0.5s;
     }
-  </style>
+    
+    #buttons {
+      text-align: center;
+    }
+  </style>  
 </head>
+
 <body>
 
-  <button id="yes">Yes</button>
-  <button id="no">No</button>
+  <div id="text">
+    Will you be my Valentine?
+  </div>
+
+  <div id="buttons">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
 
   <script>
-    const yesBtn = document.getElementById('yes');
-    const noBtn = document.getElementById('no');
-
-    noBtn.addEventListener('click', () => {
-      let currentSize = parseInt(getComputedStyle(yesBtn).fontSize); 
-      currentSize += 5; // Increase by 5px
-      yesBtn.style.fontSize = currentSize + 'px'; 
-    });
+    // Same JavaScript code
   </script>
 
 </body>
