@@ -45,6 +45,18 @@
     yesBtn.addEventListener('click', () => {
       window.location.href = 'yes.html'; 
     });
+
+    function checkSize() {
+      if(window.innerWidth > 500) {
+        noBtn.style.display = 'none';
+      } else {
+        noBtn.style.display = 'inline-block';
+      }
+    }
+
+    window.addEventListener('resize', checkSize);
+
+    checkSize(); // run on initial load
   </script>
 
 </body>
