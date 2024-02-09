@@ -1,1 +1,32 @@
-<h1>This page is discontinued.</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Be My Valentine?</title>
+  <style>
+    button {
+      font-size: 20px;
+      padding: 10px 20px; 
+    }
+    #yes {
+      transition: font-size 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="yes">Yes</button>
+  <button id="no">No</button>
+
+  <script>
+    const yesBtn = document.getElementById('yes');
+    const noBtn = document.getElementById('no');
+
+    noBtn.addEventListener('click', () => {
+      let currentSize = parseInt(getComputedStyle(yesBtn).fontSize); 
+      currentSize += 5; // Increase by 5px
+      yesBtn.style.fontSize = currentSize + 'px'; 
+    });
+  </script>
+
+</body>
+</html>
