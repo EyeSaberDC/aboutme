@@ -40,9 +40,13 @@
   </div>
 
   <script>
-    const yesBtn = document.getElementById('yes');
+    
     const noBtn = document.getElementById('no');
-
+    const yesBtn = document.getElementById('yes');
+    setTimeout(() => {
+      yesBtn.classList.add('hide'); 
+    }, 1000);
+    
     let yesFontSize = 20; // Initial font size
 
     noBtn.addEventListener('click', () => {
