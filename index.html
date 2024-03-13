@@ -95,6 +95,9 @@
       <p id="time"></p>
       <p>^ My local time ^</p>
 
+      <p id="time1"></p> 
+      <p>^ Leah's time ^</p>
+
       <div class="buttons">
 
         <a href="discord.html" class="button">
@@ -130,7 +133,13 @@
             hour12: false
           });
 
+          let utcTime = date.toLocaleString("en-US", {
+            timeZone: "UTC",
+            hour12: false
+          });  
+
           document.getElementById("time").innerHTML = time;
+          document.getElementById("time1").innerHTML = utcTime;
         }
 
         setInterval(updateTime, 1000); 
