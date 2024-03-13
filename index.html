@@ -88,7 +88,9 @@
 
       <p>Server Management/Hosting</p>
 
-      <P>Very talkative if it comes to voice calls❤️</P>
+      <p>Dating status: Complicated</p>
+
+      <p id="time"></p>
 
       <p>Throwing my life away like a paperbag</p>
         
@@ -115,7 +117,17 @@
         </a>
       
       </div>
-        
+
+      <script>
+        function updateTime() {
+          let date = new Date(); 
+          let time = date.toLocaleString("en-US", {timeZone: "Europe/Berlin"});
+          document.getElementById("time").innerHTML = time;
+        }
+    
+        setInterval(updateTime, 1000); 
+      </script>
+
     </div>
   
 </body>
