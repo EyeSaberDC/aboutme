@@ -60,14 +60,8 @@
           hour12: false
         });  
 
-        let gmtPlus2 = date.toLocaleString("en-US", {
-          timeZone: "GMT+2",
-          hour12: false
-        });
-
         document.getElementById("time").innerHTML = time;
         document.getElementById("time1").innerHTML = utcTime;
-        document.getElementById("gmt+2").innerHTML = gmtPlus2;
       }
 
       setInterval(updateTime, 1000); 
