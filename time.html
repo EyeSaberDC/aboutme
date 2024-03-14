@@ -30,8 +30,12 @@
 <body>
   <div class="content">
 
+    <p id="gmt+2"></p>
+    <p>^ Best friend's time ^</p>
     <p id="time"></p>
+    <p>^ My current time ^</p>
     <p id="time1"></p>
+    <p>^ Another best friend's time ^</p>
 
     <div class="buttons">
 
@@ -56,8 +60,14 @@
           hour12: false
         });  
 
+        let gmtPlus2 = date.toLocaleString("en-US", {
+          timeZone: "GMT+2",
+          hour12: false
+        });
+
         document.getElementById("time").innerHTML = time;
         document.getElementById("time1").innerHTML = utcTime;
+        document.getElementById("gmt+2").innerHTML = gmtPlus2;
       }
 
       setInterval(updateTime, 1000); 
