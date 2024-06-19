@@ -13,55 +13,96 @@
 
     /* Basic styles */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Courier New', monospace;
       line-height: 1.6;
-      background-color: #f4f4f4;
-      color: #333;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
     }
 
     .container {
       max-width: 800px;
       margin: 0 auto;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 40px 20px;
     }
 
     header {
-      text-align: center;
-      padding: 20px 0;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
     }
 
     nav ul {
       list-style-type: none;
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
     }
 
     nav ul li {
-      margin: 0 10px;
+      margin: 0 20px;
     }
 
     nav ul li a {
       text-decoration: none;
-      color: #333;
-      padding: 5px 10px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      color: #fff;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      padding: 10px 20px;
+      border: 2px solid #fff;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     nav ul li a:hover {
-      background-color: #333;
-      color: #fff;
+      background-color: #fff;
+      color: #000;
     }
 
     section {
+      margin-bottom: 60px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .portfolio-item {
       margin-bottom: 40px;
     }
 
+    .portfolio-item img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .portfolio-item h3 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      margin-bottom: 10px;
+    }
+
+    .portfolio-item p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
     footer {
-      text-align: center;
       padding: 20px 0;
       background-color: #333;
       color: #fff;
@@ -71,13 +112,12 @@
 <body>
   <div class="container">
     <header>
-      <h1>Welcome to My Personal Website</h1>
+      <h1>Your Name</h1>
     </header>
 
     <nav>
-      <ul id="navigation">
+      <ul>
         <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -88,20 +128,20 @@
       <p>Hi, I'm [Your Name], and I'm a [Your Profession/Role]. I have a passion for [Your Interests/Expertise], and I love [What You Enjoy Doing]. Learn more about me and my journey below.</p>
     </section>
 
-    <section id="services">
-      <h2>Services</h2>
-      <p>Here are some of the services I offer:</p>
-      <ul>
-        <li>[Service 1]</li>
-        <li>[Service 2]</li>
-        <li>[Service 3]</li>
-      </ul>
-    </section>
-
     <section id="portfolio">
-      <h2>Portfolio</h2>
-      <p>Check out some of my recent work:</p>
-      <!-- Add your portfolio items here -->
+      <h2>My Work</h2>
+      <p>Check out some of my recent projects:</p>
+      <div class="portfolio-item">
+        <img src="https://via.placeholder.com/800x500" alt="Project 1">
+        <h3>Project 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nisl nisl aliquet nisl, nec aliquam nisl nisl eget nisl.</p>
+      </div>
+      <div class="portfolio-item">
+        <img src="https://via.placeholder.com/800x500" alt="Project 2">
+        <h3>Project 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nisl nisl aliquet nisl, nec aliquam nisl nisl eget nisl.</p>
+      </div>
+      <!-- Add more portfolio items as needed -->
     </section>
 
     <section id="contact">
@@ -118,24 +158,5 @@
       <p>&copy; [Current Year] [Your Name]. All rights reserved.</p>
     </footer>
   </div>
-
-  <script>
-    // Smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('nav ul li a');
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const targetId = e.currentTarget.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        const offsetTop = targetElement.offsetTop;
-
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      });
-    });
-  </script>
 </body>
 </html>
