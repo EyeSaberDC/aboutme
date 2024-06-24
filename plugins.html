@@ -18,7 +18,7 @@
 
     <script>
         // API endpoint for fetching plugin data
-        const apiUrl = 'https://api.spiget.org/v2/resources/free?size=50';
+        const apiUrl = 'https://api.spigotmc.org/legacy/update.php?channel=bukkit';
 
         // Fetch plugin data from the API
         fetch(apiUrl)
@@ -35,10 +35,10 @@
                     pluginName.textContent = plugin.name;
 
                     const pluginDescription = document.createElement('p');
-                    pluginDescription.textContent = plugin.tag;
+                    pluginDescription.textContent = plugin.description;
 
                     const downloadLink = document.createElement('a');
-                    downloadLink.href = plugin.file.url;
+                    downloadLink.href = plugin.downloadUrl;
                     downloadLink.textContent = 'Download';
                     downloadLink.target = '_blank'; // Open the link in a new tab
 
