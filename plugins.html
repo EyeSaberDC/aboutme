@@ -7,41 +7,46 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .plugin {
-            background-color: #f5f5f5;
+            background-color: #f9f9f9;
             border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .plugin:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .plugin h2 {
             margin-top: 0;
         }
 
-        .plugin p {
-            margin-bottom: 10px;
-        }
-
         .plugin a {
             display: inline-block;
+            padding: 8px 16px;
             background-color: #4CAF50;
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 4px;
             transition: background-color 0.3s ease;
         }
 
         .plugin a:hover {
             background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        #plugin-list {
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
