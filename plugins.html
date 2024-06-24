@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server Plugins</title>
+    <style>
+        .plugin {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Server Plugins</h1>
+    <div id="plugin-list"></div>
+
+    <script>
+        // API endpoint for fetching plugin data
+        const apiUrl = 'https://api.spiget.org/v2/resources/free?size=50';
+
+        // Fetch plugin data from the API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const pluginList = document.getElementById('plugin-list');
+
+                // Loop through the plugin data and create HTML elements
+                data.forEach(plugin => {
+                    const pluginDiv = document.createElement('div');
+                    pluginDiv.classList.add('plugin');
+
+                    const pluginName = document.createElement('h2');
+                    pluginName.textContent = plugin.name;
+
+                    const pluginDescription = document.createElement('p');
+                    pluginDescription.textContent = plugin.tag;
+
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = plugin.file.url;
+                    downloadLink.textContent = 'Download';
+                    downloadLink.target = '_blank'; // Open the link in a new tab
+
+                    pluginDiv.appendChild(pluginName);
+                    pluginDiv.appendChild(pluginDescription);
+                    pluginDiv.appendChild(downloadLink);
+
+                    pluginList.appendChild(pluginDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching plugin data:', error);
+            });
+    </script>
+</body>
+</html>
