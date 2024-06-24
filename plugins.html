@@ -11,6 +11,19 @@
             padding: 0 5vh;
         }
 
+        header {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            padding: 1vh 1vh 0 1vh;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+        }
+
         .plugin {
             border: 1px solid #ccc;
             padding: 10px;
@@ -60,106 +73,42 @@
 </head>
 <body>
     <div class="container">
-        <h1>Most Popular Minecraft Server Plugins</h1>
+        <header>
+            <h1>Most Popular Minecraft Server Plugins</h1>
+        </header>
         <div id="plugin-list"></div>
-        <div class="pagination">
-            <button id="prevBtn" disabled>Previous</button>
-            <span id="pageInfo">Page 1</span>
-            <button id="nextBtn">Next</button>
-        </div>
     </div>
 
     <script>
-        let currentPage = 1;
-        const pageSize = 25;
-        let plugins = [];
-
-        // Function to fetch plugin data from the SpigotMC.org API
         function fetchPlugins() {
-            fetch(`https://api.spiget.org/v2/resources/popular?size=1000`)
+            fetch('https://api.spiget.org/v2/resources/popular?size=200')
                 .then(response => response.json())
                 .then(data => {
-                    plugins = data;
-                    fetchPluginVersions();
+                    const pluginList = document.getElementById('plugin-list');
+                    data.forEach(plugin => {
+                        const pluginElement = document.createElement('div');
+                        pluginElement.classList.add('plugin');
+
+                        const nameElement = document.createElement('h2');
+                        nameElement.textContent = plugin.name;
+                        pluginElement.appendChild(nameElement);
+
+                        const versionElement = document.createElement('p');
+                        versionElement.textContent = `Version: ${plugin.version}`;
+                        pluginElement.appendChild(versionElement);
+
+                        const downloadElement = document.createElement('a');
+                        downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                        downloadElement.textContent = 'View on SpigotMC';
+                        downloadElement.target = '_blank';
+                        pluginElement.appendChild(downloadElement);
+
+                        pluginList.appendChild(pluginElement);
+                    });
                 })
                 .catch(error => console.error('Error fetching plugins:', error));
         }
 
-        // Function to fetch plugin versions from the SpigotMC.org API
-        function fetchPluginVersions() {
-            const promises = plugins.map(plugin => {
-                return fetch(`https://api.spiget.org/v2/resources/${plugin.id}/versions/latest`)
-                    .then(response => response.json())
-                    .then(versionData => {
-                        plugin.version = versionData.name;
-                    })
-                    .catch(error => console.error(`Error fetching version for ${plugin.name}:`, error));
-            });
-
-            Promise.all(promises)
-                .then(() => {
-                    renderPlugins();
-                })
-                .catch(error => console.error('Error fetching plugin versions:', error));
-        }
-
-        // Function to render plugins on the page
-        function renderPlugins() {
-            const pluginList = document.getElementById('plugin-list');
-            pluginList.innerHTML = '';
-
-            const startIndex = (currentPage - 1) * pageSize;
-            const endIndex = startIndex + pageSize;
-            const pagePlugins = plugins.slice(startIndex, endIndex);
-
-            pagePlugins.forEach(plugin => {
-                const pluginElement = document.createElement('div');
-                pluginElement.classList.add('plugin');
-
-                const nameElement = document.createElement('h2');
-                nameElement.textContent = plugin.name;
-                pluginElement.appendChild(nameElement);
-
-                const versionElement = document.createElement('p');
-                versionElement.textContent = `Version: ${plugin.version}`;
-                pluginElement.appendChild(versionElement);
-
-                const downloadElement = document.createElement('a');
-                downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
-                downloadElement.textContent = 'View on SpigotMC';
-                downloadElement.target = '_blank';
-                pluginElement.appendChild(downloadElement);
-
-                pluginList.appendChild(pluginElement);
-            });
-
-            updatePaginationButtons();
-        }
-
-        // Function to update the pagination buttons
-        function updatePaginationButtons() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const pageInfo = document.getElementById('pageInfo');
-
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = currentPage === Math.ceil(plugins.length / pageSize);
-
-            pageInfo.textContent = `Page ${currentPage} of ${Math.ceil(plugins.length / pageSize)}`;
-        }
-
-        // Event listeners for pagination buttons
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            currentPage--;
-            renderPlugins();
-        });
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentPage++;
-            renderPlugins();
-        });
-
-        // Call the fetchPlugins function when the page loads
         fetchPlugins();
     </script>
 </body>
