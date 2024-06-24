@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft Server Plugins</title>
     <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 5vh;
+        }
+
         .plugin {
             border: 1px solid #ccc;
             padding: 10px;
@@ -53,8 +59,10 @@
     </style>
 </head>
 <body>
-    <h1>Minecraft Server Plugins</h1>
-    <div id="plugin-list"></div>
+    <div class="container">
+        <h1>Minecraft Server Plugins</h1>
+        <div id="plugin-list"></div>
+    </div>
 
     <script>
         // Function to fetch plugin data from the SpigotMC.org API
