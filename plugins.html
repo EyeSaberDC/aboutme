@@ -65,7 +65,6 @@
     </div>
 
     <script>
-        // Function to fetch plugin data from the SpigotMC.org API
         function fetchPlugins() {
             fetch('https://api.spiget.org/v2/resources/free?size=50')
                 .then(response => response.json())
@@ -84,8 +83,8 @@
                         pluginElement.appendChild(versionElement);
 
                         const downloadElement = document.createElement('a');
-                        downloadElement.href = plugin.file.url;
-                        downloadElement.textContent = 'Download';
+                        downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                        downloadElement.textContent = 'View on SpigotMC';
                         downloadElement.target = '_blank';
                         pluginElement.appendChild(downloadElement);
 
