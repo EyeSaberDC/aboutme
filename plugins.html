@@ -1,100 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Server Plugins</title>
+    <title>Popular Free Minecraft Server Plugins</title>
     <style>
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 5vh;
-        }
-
         .plugin {
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .plugin:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .plugin h2 {
-            margin-top: 0;
-        }
-
-        .plugin a {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .plugin a:hover {
-            background-color: #45a049;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        #plugin-list {
-            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Most Popular Minecraft Server Plugins</h1>
-        <div id="plugin-list"></div>
-    </div>
+    <h1>Popular Free Minecraft Server Plugins</h1>
+    <div id="plugins"></div>
 
     <script>
-        function fetchPlugins() {
-            fetch('https://api.spiget.org/v2/resources/popular?free=true&size=200')
-                .then(response => response.json())
-                .then(data => {
-                    const pluginList = document.getElementById('plugin-list');
-                    data.forEach(plugin => {
-                        const pluginElement = document.createElement('div');
-                        pluginElement.classList.add('plugin');
+        // API endpoint for popular and free plugins
+        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=10';
 
-                        const nameElement = document.createElement('h2');
-                        nameElement.textContent = plugin.name;
-                        pluginElement.appendChild(nameElement);
+        // Fetch data from the API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const pluginsContainer = document.getElementById('plugins');
 
-                        const versionElement = document.createElement('p');
-                        versionElement.textContent = `Version: ${plugin.version}`;
-                        pluginElement.appendChild(versionElement);
+                // Loop through the plugins and create HTML elements
+                data.forEach(plugin => {
+                    const pluginElement = document.createElement('div');
+                    pluginElement.classList.add('plugin');
 
-                        const downloadElement = document.createElement('a');
-                        downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
-                        downloadElement.textContent = 'View on SpigotMC';
-                        downloadElement.target = '_blank';
-                        pluginElement.appendChild(downloadElement);
+                    const nameElement = document.createElement('h2');
+                    nameElement.textContent = plugin.name;
 
-                        pluginList.appendChild(pluginElement);
-                    });
-                })
-                .catch(error => console.error('Error fetching plugins:', error));
-        }
+                    const descriptionElement = document.createElement('p');
+                    descriptionElement.textContent = plugin.tag;
 
-        fetchPlugins();
+                    const versionElement = document.createElement('p');
+                    versionElement.textContent = `Version: ${plugin.version.name}`;
+
+                    const downloadLinkElement = document.createElement('a');
+                    downloadLinkElement.href = plugin.file.downloadUrl;
+                    downloadLinkElement.textContent = 'Download';
+
+                    pluginElement.appendChild(nameElement);
+                    pluginElement.appendChild(descriptionElement);
+                    pluginElement.appendChild(versionElement);
+                    pluginElement.appendChild(downloadLinkElement);
+
+                    pluginsContainer.appendChild(pluginElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching plugins:', error);
+            });
     </script>
 </body>
 </html>
