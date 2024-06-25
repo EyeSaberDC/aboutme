@@ -25,7 +25,7 @@
         let plugins = [];
 
         // API endpoint for popular free plugins
-        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=50';
+        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=100';
 
         // Fetch data from the API
         function fetchPlugins() {
@@ -64,7 +64,7 @@
                 descriptionElement.textContent = plugin.tag;
 
                 const downloadLinkElement = document.createElement('a');
-                downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.version}`;
                 downloadLinkElement.textContent = 'Download';
 
                 pluginElement.appendChild(nameElement);
