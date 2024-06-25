@@ -15,8 +15,7 @@
         }
 
         .search-container {
-            display: flex;
-            justify-content: center;
+            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -25,20 +24,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
-        }
-
-        .search-container button {
-            padding: 8px 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 8px;
-        }
-
-        .search-container button:hover {
-            background-color: #45a049;
         }
 
         .plugin {
@@ -82,13 +67,12 @@
     <h1>Popular Free Minecraft Server Plugins</h1>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search plugins...">
-        <button id="searchButton">Search</button>
     </div>
     <div id="plugins"></div>
 
     <script>
         // API endpoint for popular and free plugins
-        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=5000';
+        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=50000';
 
         // Fetch data from the API
         fetch(apiUrl)
@@ -96,15 +80,13 @@
             .then(data => {
                 const pluginsContainer = document.getElementById('plugins');
                 const searchInput = document.getElementById('searchInput');
-                const searchButton = document.getElementById('searchButton');
                 let plugins = data;
-                let filteredPlugins = plugins;
 
                 // Function to render plugins
-                function renderPlugins(pluginsToRender) {
+                function renderPlugins(pluginData) {
                     pluginsContainer.innerHTML = ''; // Clear previous plugins
 
-                    pluginsToRender.forEach(plugin => {
+                    pluginData.forEach(plugin => {
                         const pluginElement = document.createElement('div');
                         pluginElement.classList.add('plugin');
 
@@ -131,44 +113,18 @@
                     });
                 }
 
-                // Fetch the latest version for each plugin
-                const fetchLatestVersions = async () => {
-                    const updatedPlugins = await Promise.all(
-                        plugins.map(async plugin => {
-                            const versionResponse = await fetch(`https://api.spiget.org/v2/resources/${plugin.id}/versions/latest`);
-                            const versionData = await versionResponse.json();
-                            return { ...plugin, version: versionData };
-                        })
-                    );
-                    plugins = updatedPlugins;
-                    renderPlugins(filteredPlugins);
-                };
-
-                fetchLatestVersions();
+                // Initial render of plugins
+                renderPlugins(plugins);
 
                 // Search functionality
-                const searchPlugins = () => {
+                searchInput.addEventListener('input', () => {
                     const searchTerm = searchInput.value.toLowerCase();
-                    if (searchTerm.trim() === '') {
-                        filteredPlugins = plugins;
-                    } else {
-                        filteredPlugins = plugins.filter(plugin =>
-                            plugin.name.toLowerCase().includes(searchTerm) ||
-                            plugin.tag.toLowerCase().includes(searchTerm)
-                        );
-                    }
+                    const filteredPlugins = plugins.filter(plugin =>
+                        plugin.name.toLowerCase().includes(searchTerm) ||
+                        plugin.tag.toLowerCase().includes(searchTerm)
+                    );
                     renderPlugins(filteredPlugins);
-                };
-
-                searchButton.addEventListener('click', searchPlugins);
-                searchInput.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter') {
-                        searchPlugins();
-                    }
                 });
-
-                // Render all plugins initially
-                renderPlugins(plugins);
             })
             .catch(error => {
                 console.error('Error fetching plugins:', error);
