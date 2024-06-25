@@ -14,6 +14,19 @@
             margin-bottom: 20px;
         }
 
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
         .plugin {
             background-color: #f5f5f5;
             border-radius: 5px;
@@ -53,6 +66,9 @@
 </head>
 <body>
     <h1>Popular Free Minecraft Server Plugins</h1>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search plugins...">
+    </div>
     <div id="plugins"></div>
 
     <script>
@@ -64,32 +80,63 @@
             .then(response => response.json())
             .then(data => {
                 const pluginsContainer = document.getElementById('plugins');
+                const searchInput = document.getElementById('searchInput');
+                let plugins = data;
 
-                // Loop through the plugins and create HTML elements
-                data.forEach(plugin => {
-                    const pluginElement = document.createElement('div');
-                    pluginElement.classList.add('plugin');
+                // Function to render plugins
+                function renderPlugins(pluginsToRender) {
+                    pluginsContainer.innerHTML = ''; // Clear previous plugins
 
-                    const nameElement = document.createElement('h2');
-                    nameElement.textContent = plugin.name;
+                    pluginsToRender.forEach(plugin => {
+                        const pluginElement = document.createElement('div');
+                        pluginElement.classList.add('plugin');
 
-                    const descriptionElement = document.createElement('p');
-                    descriptionElement.textContent = plugin.tag;
+                        const nameElement = document.createElement('h2');
+                        nameElement.textContent = plugin.name;
 
-                    const versionElement = document.createElement('p');
-                    versionElement.textContent = `Version: ${plugin.version.name}`;
+                        const descriptionElement = document.createElement('p');
+                        descriptionElement.textContent = plugin.tag;
 
-                    const downloadLinkElement = document.createElement('a');
-                    downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
-                    downloadLinkElement.textContent = 'Download';
-                    downloadLinkElement.target = '_blank';
+                        const versionElement = document.createElement('p');
+                        versionElement.textContent = `Version: ${plugin.version.name}`;
 
-                    pluginElement.appendChild(nameElement);
-                    pluginElement.appendChild(descriptionElement);
-                    pluginElement.appendChild(versionElement);
-                    pluginElement.appendChild(downloadLinkElement);
+                        const downloadLinkElement = document.createElement('a');
+                        downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                        downloadLinkElement.textContent = 'Download';
+                        downloadLinkElement.target = '_blank';
 
-                    pluginsContainer.appendChild(pluginElement);
+                        pluginElement.appendChild(nameElement);
+                        pluginElement.appendChild(descriptionElement);
+                        pluginElement.appendChild(versionElement);
+                        pluginElement.appendChild(downloadLinkElement);
+
+                        pluginsContainer.appendChild(pluginElement);
+                    });
+                }
+
+                // Fetch the latest version for each plugin
+                const fetchLatestVersions = async () => {
+                    const updatedPlugins = await Promise.all(
+                        plugins.map(async plugin => {
+                            const versionResponse = await fetch(`https://api.spiget.org/v2/resources/${plugin.id}/versions/latest`);
+                            const versionData = await versionResponse.json();
+                            return { ...plugin, version: versionData };
+                        })
+                    );
+                    plugins = updatedPlugins;
+                    renderPlugins(plugins);
+                };
+
+                fetchLatestVersions();
+
+                // Search functionality
+                searchInput.addEventListener('input', () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const filteredPlugins = plugins.filter(plugin =>
+                        plugin.name.toLowerCase().includes(searchTerm) ||
+                        plugin.tag.toLowerCase().includes(searchTerm)
+                    );
+                    renderPlugins(filteredPlugins);
                 });
             })
             .catch(error => {
