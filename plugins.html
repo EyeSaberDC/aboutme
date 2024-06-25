@@ -3,94 +3,98 @@
 <head>
     <title>Popular Free Minecraft Server Plugins</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
         .plugin {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .plugin h2 {
-            margin-top: 0;
-            color: #333;
-        }
-
-        .plugin p {
-            color: #666;
-        }
-
-        .plugin a {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: #fff;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .plugin a:hover {
-            background-color: #45a049;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Popular Free Minecraft Server Plugins</h1>
+    <input type="text" id="searchInput" placeholder="Search plugins...">
     <div id="plugins"></div>
+    <button id="loadMoreButton" style="display: none;">Load More</button>
 
     <script>
+        const pluginsContainer = document.getElementById('plugins');
+        const searchInput = document.getElementById('searchInput');
+        const loadMoreButton = document.getElementById('loadMoreButton');
+        let currentPage = 0;
+        let totalPages = 0;
+        let plugins = [];
+
         // API endpoint for popular free plugins
-        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=500';
+        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=50';
 
         // Fetch data from the API
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const pluginsContainer = document.getElementById('plugins');
-
-                // Loop through the plugins and create HTML elements
-                data.forEach(plugin => {
-                    const pluginElement = document.createElement('div');
-                    pluginElement.classList.add('plugin');
-
-                    const nameElement = document.createElement('h2');
-                    nameElement.textContent = plugin.name;
-
-                    const descriptionElement = document.createElement('p');
-                    descriptionElement.textContent = plugin.tag;
-
-                    const versionElement = document.createElement('p');
-                    versionElement.textContent = `Version: ${plugin.version.name}`;
-
-                    const downloadElement = document.createElement('a');
-                    downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.file.version}`;
-                    downloadElement.textContent = 'Download';
-                    downloadElement.target = '_blank';
-
-                    pluginElement.appendChild(nameElement);
-                    pluginElement.appendChild(descriptionElement);
-                    pluginElement.appendChild(versionElement);
-                    pluginElement.appendChild(downloadElement);
-
-                    pluginsContainer.appendChild(pluginElement);
+        function fetchPlugins() {
+            const url = `${apiUrl}&page=${currentPage}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    plugins = plugins.concat(data.map(plugin => ({
+                        id: plugin.id,
+                        name: plugin.name,
+                        tag: plugin.tag,
+                        version: plugin.file.version
+                    })));
+                    totalPages = Math.ceil(data.total / 50);
+                    renderPlugins();
+                })
+                .catch(error => {
+                    console.error('Error fetching plugins:', error);
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching plugins:', error);
+        }
+
+        // Render plugins
+        function renderPlugins() {
+            pluginsContainer.innerHTML = '';
+            const filteredPlugins = plugins.filter(plugin =>
+                plugin.name.toLowerCase().includes(searchInput.value.toLowerCase())
+            );
+            filteredPlugins.forEach(plugin => {
+                const pluginElement = document.createElement('div');
+                pluginElement.classList.add('plugin');
+
+                const nameElement = document.createElement('h2');
+                nameElement.textContent = plugin.name;
+
+                const descriptionElement = document.createElement('p');
+                descriptionElement.textContent = plugin.tag;
+
+                const downloadLinkElement = document.createElement('a');
+                downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                downloadLinkElement.textContent = 'Download';
+
+                pluginElement.appendChild(nameElement);
+                pluginElement.appendChild(descriptionElement);
+                pluginElement.appendChild(downloadLinkElement);
+
+                pluginsContainer.appendChild(pluginElement);
             });
+
+            if (currentPage < totalPages - 1) {
+                loadMoreButton.style.display = 'block';
+            } else {
+                loadMoreButton.style.display = 'none';
+            }
+        }
+
+        // Load more plugins
+        function loadMorePlugins() {
+            currentPage++;
+            fetchPlugins();
+        }
+
+        // Search plugins
+        searchInput.addEventListener('input', renderPlugins);
+
+        // Initial fetch
+        fetchPlugins();
+
+        // Load more button click event
+        loadMoreButton.addEventListener('click', loadMorePlugins);
     </script>
 </body>
 </html>
