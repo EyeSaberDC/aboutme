@@ -132,6 +132,7 @@
                 const downloadLinkElement = document.createElement('a');
                 downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
                 downloadLinkElement.textContent = 'Download';
+                downloadLinkElement.target = '_blank';
 
                 pluginElement.appendChild(nameElement);
                 pluginElement.appendChild(descriptionElement);
