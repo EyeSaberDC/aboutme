@@ -14,18 +14,6 @@
             margin-bottom: 20px;
         }
 
-        .search-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .search-container input {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
         .plugin {
             background-color: #f5f5f5;
             border-radius: 5px;
@@ -36,7 +24,7 @@
         }
 
         .plugin:hover {
-            background-color: #e8e8e8;
+            background-color: #e0e0e0;
             transform: scale(1.02);
         }
 
@@ -65,9 +53,6 @@
 </head>
 <body>
     <h1>Popular Free Minecraft Server Plugins</h1>
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search plugins...">
-    </div>
     <div id="plugins"></div>
 
     <script>
@@ -79,51 +64,32 @@
             .then(response => response.json())
             .then(data => {
                 const pluginsContainer = document.getElementById('plugins');
-                const searchInput = document.getElementById('searchInput');
-                let plugins = data;
 
-                // Function to render plugins
-                function renderPlugins(pluginData) {
-                    pluginsContainer.innerHTML = ''; // Clear previous plugins
+                // Loop through the plugins and create HTML elements
+                data.forEach(plugin => {
+                    const pluginElement = document.createElement('div');
+                    pluginElement.classList.add('plugin');
 
-                    pluginData.forEach(plugin => {
-                        const pluginElement = document.createElement('div');
-                        pluginElement.classList.add('plugin');
+                    const nameElement = document.createElement('h2');
+                    nameElement.textContent = plugin.name;
 
-                        const nameElement = document.createElement('h2');
-                        nameElement.textContent = plugin.name;
+                    const descriptionElement = document.createElement('p');
+                    descriptionElement.textContent = plugin.tag;
 
-                        const descriptionElement = document.createElement('p');
-                        descriptionElement.textContent = plugin.tag;
+                    const versionElement = document.createElement('p');
+                    versionElement.textContent = `Version: ${plugin.version.name}`;
 
-                        const versionElement = document.createElement('p');
-                        versionElement.textContent = `Version: ${plugin.version.name}`;
+                    const downloadLinkElement = document.createElement('a');
+                    downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                    downloadLinkElement.textContent = 'View on SpigotMC';
+                    downloadLinkElement.target = '_blank';
 
-                        const downloadLinkElement = document.createElement('a');
-                        downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
-                        downloadLinkElement.textContent = 'View on SpigotMC';
-                        downloadLinkElement.target = '_blank';
+                    pluginElement.appendChild(nameElement);
+                    pluginElement.appendChild(descriptionElement);
+                    pluginElement.appendChild(versionElement);
+                    pluginElement.appendChild(downloadLinkElement);
 
-                        pluginElement.appendChild(nameElement);
-                        pluginElement.appendChild(descriptionElement);
-                        pluginElement.appendChild(versionElement);
-                        pluginElement.appendChild(downloadLinkElement);
-
-                        pluginsContainer.appendChild(pluginElement);
-                    });
-                }
-
-                // Initial render of plugins
-                renderPlugins(plugins);
-
-                // Search functionality
-                searchInput.addEventListener('input', () => {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    const filteredPlugins = plugins.filter(plugin =>
-                        plugin.name.toLowerCase().includes(searchTerm) ||
-                        plugin.tag.toLowerCase().includes(searchTerm)
-                    );
-                    renderPlugins(filteredPlugins);
+                    pluginsContainer.appendChild(pluginElement);
                 });
             })
             .catch(error => {
