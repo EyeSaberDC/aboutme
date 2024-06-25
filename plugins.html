@@ -27,6 +27,20 @@
             font-size: 16px;
         }
 
+        .search-container button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+
         .plugin {
             background-color: #f5f5f5;
             border-radius: 5px;
@@ -68,6 +82,7 @@
     <h1>Popular Free Minecraft Server Plugins</h1>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search plugins...">
+        <button id="searchButton">Search</button>
     </div>
     <div id="plugins"></div>
 
@@ -81,37 +96,45 @@
             .then(data => {
                 const pluginsContainer = document.getElementById('plugins');
                 const searchInput = document.getElementById('searchInput');
+                const searchButton = document.getElementById('searchButton');
                 let plugins = data;
+                let filteredPlugins = plugins;
 
                 // Function to render plugins
                 function renderPlugins(pluginsToRender) {
                     pluginsContainer.innerHTML = ''; // Clear previous plugins
 
-                    pluginsToRender.forEach(plugin => {
-                        const pluginElement = document.createElement('div');
-                        pluginElement.classList.add('plugin');
+                    if (pluginsToRender.length === 0) {
+                        const noResultsElement = document.createElement('p');
+                        noResultsElement.textContent = 'No plugins found.';
+                        pluginsContainer.appendChild(noResultsElement);
+                    } else {
+                        pluginsToRender.forEach(plugin => {
+                            const pluginElement = document.createElement('div');
+                            pluginElement.classList.add('plugin');
 
-                        const nameElement = document.createElement('h2');
-                        nameElement.textContent = plugin.name;
+                            const nameElement = document.createElement('h2');
+                            nameElement.textContent = plugin.name;
 
-                        const descriptionElement = document.createElement('p');
-                        descriptionElement.textContent = plugin.tag;
+                            const descriptionElement = document.createElement('p');
+                            descriptionElement.textContent = plugin.tag;
 
-                        const versionElement = document.createElement('p');
-                        versionElement.textContent = `Version: ${plugin.version.name}`;
+                            const versionElement = document.createElement('p');
+                            versionElement.textContent = `Version: ${plugin.version.name}`;
 
-                        const downloadLinkElement = document.createElement('a');
-                        downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
-                        downloadLinkElement.textContent = 'Download';
-                        downloadLinkElement.target = '_blank';
+                            const downloadLinkElement = document.createElement('a');
+                            downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                            downloadLinkElement.textContent = 'View on SpigotMC';
+                            downloadLinkElement.target = '_blank';
 
-                        pluginElement.appendChild(nameElement);
-                        pluginElement.appendChild(descriptionElement);
-                        pluginElement.appendChild(versionElement);
-                        pluginElement.appendChild(downloadLinkElement);
+                            pluginElement.appendChild(nameElement);
+                            pluginElement.appendChild(descriptionElement);
+                            pluginElement.appendChild(versionElement);
+                            pluginElement.appendChild(downloadLinkElement);
 
-                        pluginsContainer.appendChild(pluginElement);
-                    });
+                            pluginsContainer.appendChild(pluginElement);
+                        });
+                    }
                 }
 
                 // Fetch the latest version for each plugin
@@ -124,20 +147,30 @@
                         })
                     );
                     plugins = updatedPlugins;
-                    renderPlugins(plugins);
+                    renderPlugins(filteredPlugins);
                 };
 
                 fetchLatestVersions();
 
                 // Search functionality
-                searchInput.addEventListener('input', () => {
+                const searchPlugins = () => {
                     const searchTerm = searchInput.value.toLowerCase();
-                    const filteredPlugins = plugins.filter(plugin =>
+                    filteredPlugins = plugins.filter(plugin =>
                         plugin.name.toLowerCase().includes(searchTerm) ||
                         plugin.tag.toLowerCase().includes(searchTerm)
                     );
                     renderPlugins(filteredPlugins);
+                };
+
+                searchButton.addEventListener('click', searchPlugins);
+                searchInput.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter') {
+                        searchPlugins();
+                    }
                 });
+
+                // Render all plugins initially
+                renderPlugins(plugins);
             })
             .catch(error => {
                 console.error('Error fetching plugins:', error);
