@@ -76,7 +76,7 @@
                     versionElement.textContent = `Version: ${plugin.version.name}`;
 
                     const downloadElement = document.createElement('a');
-                    downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/download`;
+                    downloadElement.href = `https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.file.version}`;
                     downloadElement.textContent = 'Download';
                     downloadElement.target = '_blank';
 
