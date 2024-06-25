@@ -20,12 +20,12 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .plugin-info {
-            flex-grow: 1;
+        .plugin:hover {
+            background-color: #e8e8e8;
+            transform: scale(1.02);
         }
 
         .plugin h2 {
