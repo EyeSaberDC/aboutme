@@ -3,10 +3,45 @@
 <head>
     <title>Popular Free Minecraft Server Plugins</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .plugin {
-            border: 1px solid #ccc;
-            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .plugin h2 {
+            margin-top: 0;
+        }
+
+        .plugin p {
             margin-bottom: 10px;
+        }
+
+        .plugin a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .plugin a:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -39,8 +74,9 @@
                     versionElement.textContent = `Version: ${plugin.version.name}`;
 
                     const downloadLinkElement = document.createElement('a');
-                    downloadLinkElement.href = plugin.file.downloadUrl;
+                    downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
                     downloadLinkElement.textContent = 'Download';
+                    downloadLinkElement.target = '_blank';
 
                     pluginElement.appendChild(nameElement);
                     pluginElement.appendChild(descriptionElement);
