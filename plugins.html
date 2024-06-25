@@ -104,37 +104,31 @@
                 function renderPlugins(pluginsToRender) {
                     pluginsContainer.innerHTML = ''; // Clear previous plugins
 
-                    if (pluginsToRender.length === 0) {
-                        const noResultsElement = document.createElement('p');
-                        noResultsElement.textContent = 'No plugins found.';
-                        pluginsContainer.appendChild(noResultsElement);
-                    } else {
-                        pluginsToRender.forEach(plugin => {
-                            const pluginElement = document.createElement('div');
-                            pluginElement.classList.add('plugin');
+                    pluginsToRender.forEach(plugin => {
+                        const pluginElement = document.createElement('div');
+                        pluginElement.classList.add('plugin');
 
-                            const nameElement = document.createElement('h2');
-                            nameElement.textContent = plugin.name;
+                        const nameElement = document.createElement('h2');
+                        nameElement.textContent = plugin.name;
 
-                            const descriptionElement = document.createElement('p');
-                            descriptionElement.textContent = plugin.tag;
+                        const descriptionElement = document.createElement('p');
+                        descriptionElement.textContent = plugin.tag;
 
-                            const versionElement = document.createElement('p');
-                            versionElement.textContent = `Version: ${plugin.version.name}`;
+                        const versionElement = document.createElement('p');
+                        versionElement.textContent = `Version: ${plugin.version.name}`;
 
-                            const downloadLinkElement = document.createElement('a');
-                            downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
-                            downloadLinkElement.textContent = 'View on SpigotMC';
-                            downloadLinkElement.target = '_blank';
+                        const downloadLinkElement = document.createElement('a');
+                        downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/`;
+                        downloadLinkElement.textContent = 'View on SpigotMC';
+                        downloadLinkElement.target = '_blank';
 
-                            pluginElement.appendChild(nameElement);
-                            pluginElement.appendChild(descriptionElement);
-                            pluginElement.appendChild(versionElement);
-                            pluginElement.appendChild(downloadLinkElement);
+                        pluginElement.appendChild(nameElement);
+                        pluginElement.appendChild(descriptionElement);
+                        pluginElement.appendChild(versionElement);
+                        pluginElement.appendChild(downloadLinkElement);
 
-                            pluginsContainer.appendChild(pluginElement);
-                        });
-                    }
+                        pluginsContainer.appendChild(pluginElement);
+                    });
                 }
 
                 // Fetch the latest version for each plugin
@@ -155,10 +149,14 @@
                 // Search functionality
                 const searchPlugins = () => {
                     const searchTerm = searchInput.value.toLowerCase();
-                    filteredPlugins = plugins.filter(plugin =>
-                        plugin.name.toLowerCase().includes(searchTerm) ||
-                        plugin.tag.toLowerCase().includes(searchTerm)
-                    );
+                    if (searchTerm.trim() === '') {
+                        filteredPlugins = plugins;
+                    } else {
+                        filteredPlugins = plugins.filter(plugin =>
+                            plugin.name.toLowerCase().includes(searchTerm) ||
+                            plugin.tag.toLowerCase().includes(searchTerm)
+                        );
+                    }
                     renderPlugins(filteredPlugins);
                 };
 
