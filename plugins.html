@@ -90,17 +90,23 @@
         let totalPages = 0;
         let plugins = [];
 
-        function fetchPlugins(page = 0, searchTerm = '') {
-            const apiUrl = `https://api.spiget.org/v2/resources/free?sort=-downloads&size=50&page=${page}&search=${searchTerm}`;
+        // API endpoint for popular free plugins
+        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=1000';
 
-            fetch(apiUrl)
+        // Fetch data from the API
+        function fetchPlugins() {
+            const url = `${apiUrl}&page=${currentPage}`;
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    plugins = data.resources;
+                    plugins = plugins.concat(data.map(plugin => ({
+                        id: plugin.id,
+                        name: plugin.name,
+                        tag: plugin.tag,
+                        version: plugin.file.version
+                    })));
                     totalPages = Math.ceil(data.total / 50);
-                    currentPage = page;
                     renderPlugins();
-                    updateLoadMoreButton();
                 })
                 .catch(error => {
                     console.error('Error fetching plugins:', error);
@@ -124,12 +130,9 @@
                 descriptionElement.textContent = plugin.tag;
 
                 const downloadLinkElement = document.createElement('a');
-                const downloadUrl = `https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.file.version}`;
-                downloadLinkElement.href = downloadUrl;
+                downloadLinkElement.href = 'https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.file.version}/';
                 downloadLinkElement.textContent = 'Download';
-                downloadLinkElement.addEventListener('click', () => {
-                    window.location.href = downloadUrl;
-                });
+                downloadLinkElement.target = '_blank';
 
                 pluginElement.appendChild(nameElement);
                 pluginElement.appendChild(descriptionElement);
@@ -145,23 +148,20 @@
             }
         }
 
-        // Update load more button
-        function updateLoadMoreButton() {
-            loadMoreButton.disabled = currentPage >= totalPages - 1;
+        // Load more plugins
+        function loadMorePlugins() {
+            currentPage++;
+            fetchPlugins();
         }
 
-        // Load more plugins
-        loadMoreButton.addEventListener('click', () => {
-            fetchPlugins(currentPage + 1, searchInput.value);
-        });
-
         // Search plugins
-        searchInput.addEventListener('input', () => {
-            fetchPlugins(0, searchInput.value);
-        });
+        searchInput.addEventListener('input', renderPlugins);
 
-        // Initial load
+        // Initial fetch
         fetchPlugins();
+
+        // Load more button click event
+        loadMoreButton.addEventListener('click', loadMorePlugins);
     </script>
 </body>
 </html>
