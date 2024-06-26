@@ -90,23 +90,17 @@
         let totalPages = 0;
         let plugins = [];
 
-        // API endpoint for popular free plugins
-        const apiUrl = 'https://api.spiget.org/v2/resources/free?sort=-downloads&size=1000';
+        function fetchPlugins(page = 0, searchTerm = '') {
+            const apiUrl = `https://api.spiget.org/v2/resources/free?sort=-downloads&size=50&page=${page}&search=${searchTerm}`;
 
-        // Fetch data from the API
-        function fetchPlugins() {
-            const url = `${apiUrl}&page=${currentPage}`;
-            fetch(url)
+            fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    plugins = plugins.concat(data.map(plugin => ({
-                        id: plugin.id,
-                        name: plugin.name,
-                        tag: plugin.tag,
-                        version: plugin.file.version
-                    })));
+                    plugins = data.resources;
                     totalPages = Math.ceil(data.total / 50);
+                    currentPage = page;
                     renderPlugins();
+                    updateLoadMoreButton();
                 })
                 .catch(error => {
                     console.error('Error fetching plugins:', error);
