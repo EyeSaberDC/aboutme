@@ -151,20 +151,23 @@
             }
         }
 
-        // Load more plugins
-        function loadMorePlugins() {
-            currentPage++;
-            fetchPlugins();
+        // Update load more button
+        function updateLoadMoreButton() {
+            loadMoreButton.disabled = currentPage >= totalPages - 1;
         }
 
+        // Load more plugins
+        loadMoreButton.addEventListener('click', () => {
+            fetchPlugins(currentPage + 1, searchInput.value);
+        });
+
         // Search plugins
-        searchInput.addEventListener('input', renderPlugins);
+        searchInput.addEventListener('input', () => {
+            fetchPlugins(0, searchInput.value);
+        });
 
-        // Initial fetch
+        // Initial load
         fetchPlugins();
-
-        // Load more button click event
-        loadMoreButton.addEventListener('click', loadMorePlugins);
     </script>
 </body>
 </html>
