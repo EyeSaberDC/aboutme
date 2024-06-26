@@ -130,7 +130,7 @@
                 descriptionElement.textContent = plugin.tag;
 
                 const downloadLinkElement = document.createElement('a');
-                downloadLinkElement.href = 'https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.file.version}';
+                downloadLinkElement.href = 'https://www.spigotmc.org/${plugin.file.url}';
                 downloadLinkElement.textContent = 'Download';
                 downloadLinkElement.target = '_blank';
 
