@@ -103,7 +103,8 @@
                         id: plugin.id,
                         name: plugin.name,
                         tag: plugin.tag,
-                        version: plugin.file.version
+                        version: plugin.file.version,
+                        url: plugin.url
                     })));
                     totalPages = Math.ceil(data.total / 50);
                     renderPlugins();
@@ -130,7 +131,7 @@
                 descriptionElement.textContent = plugin.tag;
 
                 const downloadLinkElement = document.createElement('a');
-                downloadLinkElement.href = `https://www.spigotmc.org/resources/${plugin.id}/downloads?version=${plugin.file.version}/`;
+                downloadLinkElement.href = `https://www.spigotmc.org/${plugin.url}`;
                 downloadLinkElement.textContent = 'Download';
                 downloadLinkElement.target = '_blank';
 
