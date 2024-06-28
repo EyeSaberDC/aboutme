@@ -40,15 +40,27 @@
         }
 
         function generateSkinFromPrompt(prompt) {
-            // This is a placeholder function that generates random skin data
-            // You would need to replace this with your actual skin generation logic
             const skinData = [];
+            const words = prompt.split(' ');
+
             for (let i = 0; i < 64 * 32; i++) {
-                const r = Math.floor(Math.random() * 256);
-                const g = Math.floor(Math.random() * 256);
-                const b = Math.floor(Math.random() * 256);
+                let r = 0, g = 0, b = 0;
+
+                for (let j = 0; j < words.length; j++) {
+                    const word = words[j];
+                    const charCode = word.charCodeAt(j % word.length);
+                    r += charCode % 256;
+                    g += (charCode * 2) % 256;
+                    b += (charCode * 3) % 256;
+                }
+
+                r = Math.floor(r / words.length);
+                g = Math.floor(g / words.length);
+                b = Math.floor(b / words.length);
+
                 skinData.push({ r, g, b });
             }
+
             return skinData;
         }
     </script>
