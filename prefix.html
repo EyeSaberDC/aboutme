@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minecraft Texture Pack Prefix Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Texture Pack Prefix Generator</h1>
+    <label for="prefix">Enter a prefix:</label>
+    <input type="text" id="prefix" placeholder="Enter a prefix">
+    <button onclick="generatePrefix()">Generate</button>
+    <div id="result"></div>
+
+    <script>
+        function generatePrefix() {
+            var prefix = document.getElementById("prefix").value;
+            var result = "";
+
+            if (prefix) {
+                result = prefix + "_";
+            }
+
+            document.getElementById("result").textContent = "Prefix: " + result;
+        }
+    </script>
+</body>
+</html>
